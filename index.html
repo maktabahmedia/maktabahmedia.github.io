@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kaidah Mantik100  — Arab + Terjemahan Indonesia</title>
+  <meta name="description" content="100 Kaidah Mantik klasik dengan teks Arab + terjemahan Indonesia, tema gelap, contoh expandable, pencarian, filter kategori, dan tombol salin." />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f7f7f7;
+      --panel: #ffffff;
+      --text: #111111;
+      --muted: #555555;
+      --line: #dddddd;
+      --accent: #b8860b;
+      --accent-2: #969696;
+      --shadow: 0 14px 28px -18px rgba(2, 6, 23, .25);
+      --radius: 14px;
+      --chip: #ffffff;
+      --chip-border: #dddddd;
+      --tag-bg: #f8fafc;
+      --tag-border: #dddddd;
+      --pill-bg: #fff;
+    }
+    [data-theme="dark"]{
+      --bg: #0a0a0a;
+      --panel: #111111;
+      --text: #eeeeee;
+      --muted: #999999;
+      --line: #222222;
+      --accent: #f0b90b;
+      --accent-2: #c8c8c8;
+      --shadow: 0 20px 40px -24px rgba(0,0,0,.6);
+      --chip: #111111;
+      --chip-border: #222222;
+      --tag-bg: #0a0a0a;
+      --tag-border: #222222;
+      --pill-bg: #111111;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background: var(--bg);
+      line-height:1.6;
+    }
+    .ar{
+      font-family: "Noto Naskh Arabic", "Amiri", serif;
+      letter-spacing: 0;
+    }
+
+    header{
+      position:relative; overflow:hidden;
+      padding: 72px 20px 36px;
+      background:
+        radial-gradient(1200px 400px at 10% -20%, rgba(184, 134, 11, .1), transparent 60%),
+        radial-gradient(1000px 380px at 90% -30%, rgba(150, 150, 150, .1), transparent 60%),
+        linear-gradient(180deg, rgba(247,247,247,.95) 0, rgba(247,247,247,.6) 70%, rgba(247,247,247,0) 100%);
+      border-bottom: 1px solid var(--line);
+      transition: background .3s ease;
+    }
+    [data-theme="dark"] header{
+      background:
+        radial-gradient(1200px 400px at 10% -20%, rgba(240, 185, 11, .1), transparent 60%),
+        radial-gradient(1000px 380px at 90% -30%, rgba(200, 200, 200, .08), transparent 60%),
+        linear-gradient(180deg, #0a0a0a 0, rgba(10,10,10,.85) 70%, rgba(10,10,10,0) 100%);
+    }
+
+    .nav{
+      max-width: 1100px; margin: 0 auto 28px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px; }
+    .brand-badge{
+      width:150px; height:150px; border-radius:20px;
+    }
+    .nav a{
+      color: var(--muted); text-decoration:none; margin-left:18px; font-weight:600;
+    }
+    .nav a:hover{ color: var(--text) }
+    .mode-toggle{
+      margin-left: 14px; border:1px solid var(--line); background: var(--chip); color: var(--text);
+      padding:8px 12px; border-radius: 999px; font-weight:700; cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .hero{
+      max-width: 1100px; margin: 0 auto;
+      display:grid; grid-template-columns: 1.2fr .8fr; gap: 20px; align-items:end;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; gap: 16px; }
+    }
+    h1{
+      font-size: clamp(32px, 5vw, 56px);
+      line-height:1.08; margin: 0 0 12px; letter-spacing:-.5px;
+      background: linear-gradient(90deg, var(--text) 0%, var(--text) 35%, var(--accent) 65%, var(--accent-2) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: hue 10s linear infinite;
+    }
+    @keyframes hue { 0%{ filter:hue-rotate(0deg) } 100%{ filter:hue-rotate(360deg) } }
+    .hero p{ color: var(--muted); margin: 0; font-size: clamp(14px, 1.6vw, 17px); }
+    .hero .meta{
+      display:flex; gap:10px; align-items:center; justify-content:flex-end; color:var(--muted);
+      font-size:14px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--pill-bg); border:1px solid var(--line); border-radius: 999px; padding: 8px 12px;
+      box-shadow: 0 8px 20px -12px rgba(2,6,23,.18);
+    }
+
+    .controls{
+      max-width: 1100px; margin: 18px auto 0; display:flex; flex-direction:column; gap:14px;
+    }
+    .searchbar{
+      display:flex; gap:10px; background:var(--panel); border:1px solid var(--line);
+      border-radius: 14px; padding: 10px; box-shadow: var(--shadow);
+    }
+    .searchbar input{
+      flex:1; border:none; outline:none; font-size:16px; padding:12px 14px; background:transparent; color:var(--text);
+    }
+    .searchbar input::placeholder{ color:#94a3b8 }
+    .kount{ color:var(--muted); font-weight:600; background:var(--tag-bg); border:1px solid var(--line);
+      padding: 10px 12px; border-radius:10px; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px }
+    .chip{
+      border:1px solid var(--chip-border); background:var(--chip); color:var(--text); padding:8px 12px; border-radius:999px;
+      font-weight:700; font-size:13px; cursor:pointer; transition: all .2s ease; user-select:none;
+    }
+    .chip:hover{ transform: translateY(-1px) }
+    .chip.active{
+      color: #0b1a16; background: linear-gradient(135deg, rgba(192, 160, 98, .2), rgba(176, 176, 176, .18));
+      border-color: rgba(192, 160, 98, .45);
+    }
+    [data-theme="dark"] .chip.active{ color:#0b1a16 }
+    .clear-btn{
+      margin-left:auto; background:transparent; border:none; font-weight:700; color:var(--muted);
+      cursor:pointer; padding:8px 10px; border-radius: 8px;
+    }
+    .clear-btn:hover{ color: var(--text); text-decoration: underline }
+
+    main{ padding: 28px 20px 100px }
+    .grid{
+      max-width: 1100px; margin: 0 auto; display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px;
+    }
+    @media (max-width: 1000px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 640px){ .grid{ grid-template-columns: 1fr; } }
+    .card{
+      background: var(--panel); border:1px solid var(--line); border-radius: var(--radius);
+      padding: 16px 16px 14px; box-shadow: var(--shadow);
+      transform: translateY(10px) scale(.98); opacity: 0;
+      transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .45s ease, box-shadow .2s ease;
+      position: relative;
+    }
+    .card.revealed{ transform: translateY(0) scale(1); opacity: 1 }
+    .card:hover{ box-shadow: 0 18px 36px -18px rgba(2,6,23,.45) }
+
+    .card .top{
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;
+    }
+    .num{
+      width:36px; height:36px; display:grid; place-items:center; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(192, 160, 98, .18), rgba(176, 176, 176, .18));
+      color:#0b1a16; font-weight:900;
+    }
+    .cat{
+      font-size: 12px; color: var(--muted); font-weight:800; letter-spacing:.3px; text-transform: uppercase;
+    }
+    .copy-btn{
+      position:absolute; top:10px; right:10px;
+      border:1px solid var(--line); background: var(--chip); color: var(--text);
+      padding:6px 10px; border-radius: 10px; font-weight:800; cursor:pointer; font-size: 12px;
+    }
+    .title-id{ margin: 2px 0 6px; font-size: 13px; color: var(--muted); font-weight: 700 }
+    .card h3{ margin: 6px 0 2px; font-size: 17px; line-height:1.35; letter-spacing:.1px; }
+    .desc-ar{ margin: 6px 0 4px; color: var(--text); font-size:15px }
+    .desc-id{ margin: 0 0 2px; color: var(--muted); font-size:13.5px }
+    .tags{ margin-top:10px; display:flex; flex-wrap:wrap; gap:6px }
+    .tag{
+      font-size: 12px; padding: 5px 8px; border-radius: 999px;
+      background: var(--tag-bg); border:1px dashed var(--tag-border); color:var(--text); font-weight:700;
+    }
+    details.example{ margin-top: 12px; border-top: 1px dashed var(--line); padding-top: 10px }
+    details.example summary{
+      cursor:pointer; user-select:none; font-weight:800; color: var(--text);
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    details.example[open] summary{ color: var(--accent) }
+    .example-body{ padding: 6px 0 2px; }
+    .ex-ar{ color: var(--text); font-size:15px }
+    .ex-id{ color: var(--muted); font-size:13.5px; margin-top: 2px }
+
+    section{
+      max-width: 1100px; margin: 56px auto 0; background: var(--panel); border:1px solid var(--line);
+      border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+    }
+    section h2{ margin: 0 0 8px; font-size: 22px }
+    section p{ color: var(--muted); margin: 0 0 8px; }
+    ul.refs{ margin: 10px 0 0 18px; color: var(--muted) }
+    ul.refs li{ margin-bottom:6px }
+    a.link{ color: var(--accent); text-decoration: none; font-weight: 700 }
+    a.link:hover{ text-decoration: underline }
+
+    .to-top{
+      position: fixed; right: 18px; bottom: 18px; z-index: 9; opacity: 0; transform: translateY(12px);
+      transition: all .25s ease;
+    }
+    .to-top.visible{ opacity: 1; transform: translateY(0) }
+    .to-top button{
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0b1a16;
+      border:none; padding:12px 14px; border-radius: 999px; font-weight:900; cursor:pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .toast{
+      position: fixed; left:50%; transform: translateX(-50%);
+      bottom: 22px; padding: 10px 14px; border-radius: 10px; font-weight:800; z-index: 99;
+      background: var(--chip); color: var(--text); border:1px solid var(--line); box-shadow: var(--shadow);
+      opacity: 0; pointer-events:none; transition: opacity .25s ease, transform .25s ease;
+    }
+    .toast.show{ opacity:1; transform: translate(-50%, 0) }
+    @media (prefers-reduced-motion: reduce) {
+      .card{ transition: none }
+      .card.revealed{ transform:none; opacity: 1 }
+      h1{ animation: none }
+    }
+
+    footer{
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    footer.visible{
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="nav" aria-label="Navigasi utama">
+    <div class="brand">
+      <img src="https://i.ibb.co.com/TD7Y35QY/Untitled-100-x-100-px-100-x-100-px.png" alt="Logo" class="brand-badge">
+      <div></div>
+    </div>
+    <div>
+      <a href="#kaidah">Kaidah</a>
+      <a href="#tentang">Tentang</a>
+      <a href="#sumber">Sumber</a>
+      <button class="mode-toggle" id="modeToggle" type="button" aria-label="Ganti tema">🌙 Mode Gelap</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>Kaidah Mantik — Arab + Terjemahan Indonesia</h1>
+      <p>Seluruh kaidah dan contoh ditampilkan dalam Bahasa Arab disertai terjemahan Indonesia. Tersedia pencarian, filter, contoh expandable, tombol salin, dan dark mode.</p>
+    </div>
+    <div class="meta">
+      <span class="pill">🌓 Tema gelap</span>
+      <span class="pill">📝 Arab + Indonesia</span>
+    </div>
+  </div>
+
+  <div class="controls" id="kaidah">
+    <div class="searchbar" role="search">
+      <input id="search" type="search" placeholder="Cari: بربرا, تعريف, تناقض, obversi, dll…" aria-label="Cari kaidah" />
+      <div class="kount"><span id="count">100</span> kaidah</div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <button class="clear-btn" id="clearFilters" title="Hapus filter">Hapus filter</button>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="grid"></div>
+
+  <section id="tentang" aria-labelledby="tentang-title">
+    <h2 id="tentang-title">Tentang Kompilasi</h2>
+    <p>Daftar ini merangkum prinsip-prinsip mantik klasik dari tradisi Islam(Isaguji, Shamsiyyah, Sullam). Kaidah dan contoh diberikan dalam bahasa Arab dengan terjemahan Indonesia untuk memudahkan belajar dwibahasa.</p>
+    <p>Catatan:</p>
+    <ul class="refs">
+      <li>Relasi pada “Matriks/Matriks Oposisi” mengikuti asumsi eksistensial tradisional.</li>
+      <li>Nama-nama mood silogisme dipertahankan dan dilengkapi padanan/penulisan Arab.</li>
+      <li>Contoh dibuat ringkas dan edukatif; untuk pembahasan mendalam rujuk ke sumber primer.</li>
+    </ul>
+  </section>
+
+  <section id="sumber" aria-labelledby="sumber-title">
+    <h2 id="sumber-title">Sumber Tepercaya</h2>
+    <ul class="refs">
+      <li>Isagoge(Isāghūjī) — pengantar kategori & universal.</li>
+      <li>Ibn Sīnā (Avicenna), al-Shifā’ (al-Qiyās), al-Najāt (logika), al-Ishārāt wa al-Tanbīhāt.</li>
+      <li>Al-Ghazālī, Mi‘yār al-‘Ilm; al-Qisṭās al-Mustaqīm.</li>
+      <li>Al-Kātibī, al-Shamsiyyah fī al-Manṭiq (beserta syarah).</li>
+      <li>Al-Akhdarī, al-Sullam al-Munawraq (nadham mantik).</li>
+      <li>Stanford Encyclopedia of Philosophy:
+        <a class="link" href="https://plato.stanford.edu/entries/arabic-islamic-logic/" target="_blank" rel="noopener">Arabic and Islamic Logic</a>.
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div class="creator">Dibuat oleh Fulan</div>
+</footer>
+
+<div class="to-top" id="toTop">
+  <button aria-label="Kembali ke atas" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Ke atas</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Tema: preferensi + toggle
+  const root = document.documentElement;
+  const modeToggle = document.getElementById('modeToggle');
+  const savedTheme = localStorage.getItem('theme');
+  if(savedTheme){ root.setAttribute('data-theme', savedTheme); modeToggle.textContent = savedTheme === 'dark' ? '☀️ Mode Terang' : '🌙 Mode Gelap'; }
+  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    root.setAttribute('data-theme','dark'); modeToggle.textContent = '☀️ Mode Terang';
+  }
+  modeToggle.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', cur);
+    localStorage.setItem('theme', cur);
+    modeToggle.textContent = cur === 'dark' ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+  });
+
+  // Kategori (Indonesia)
+  const categories = [
+    "Hukum Asasi",
+    "Definisi",
+    "Lima Universal",
+    "Istilah Kunci",
+    "Proposisi",
+    "Distribusi & Kuantor",
+    "Persegi Oposisi",
+    "Operasi Logis",
+    "Silogisme",
+    "Moods Silogistik",
+    "Logika Bersyarat",
+    "Induksi & Analogi",
+    "Jenis Argumentasi",
+    "Kekeliruan"
+  ];
+
+  // Data 100 kaidah — Arab + Indonesia
+  const rules = [
+    // Hukum Asasi (1-4)
+    {no:1, cat:"Hukum Asasi",
+      titleAr:"قانون الهوية", titleId:"Hukum Identitas",
+      descAr:"كل شيء هو هو.", descId:"Setiap sesuatu identik dengan dirinya (A = A).",
+      exAr:"الماء ماء.", exId:"Air adalah air."},
+    {no:2, cat:"Hukum Asasi",
+      titleAr:"قانون عدم التناقض", titleId:"Hukum Nonkontradiksi",
+      descAr:"لا يمكن أن يصدق إثبات الشيء ونفيه معًا من الجهة نفسها وفي الوقت نفسه.",
+      descId:"Tidak mungkin A dan bukan-A benar sekaligus pada hal dan waktu yang sama.",
+      exAr:"الجدار نفسه في الوقت نفسه لا يكون أبيضَ وغيرَ أبيض.", exId:"Dinding yang sama, pada saat yang sama, tidak mungkin sekaligus putih dan tidak putih."},
+    {no:3, cat:"Hukum Asasi",
+      titleAr:"قانون الثالث المرفوع (الوسط الممتنع)", titleId:"Hukum Eksklusi Tengah",
+      descAr:"لكل قضية: إمّا أ وإمّا لا أ؛ ولا ثالث بينهما.",
+      descId:"Untuk proposisi apa pun, A atau bukan-A; tidak ada kemungkinan ketiga.",
+      exAr:"العدد ٧ إمّا أوّليّ وإمّا ليس أوّليًّا (في منطق القيمتين).", exId:"Bilangan 7: prima atau bukan prima (dalam logika dua-nilai)."},
+    {no:4, cat:"Hukum Asasi",
+      titleAr:"مبدأ السبب الكافي", titleId:"Prinsip Alasan Memadai",
+      descAr:"كل دعوى تحتاج إلى علّة كافية؛ تجنّب الإثبات بلا دليل.",
+      descId:"Setiap klaim menuntut dalil yang cukup; hindari penetapan tanpa alasan.",
+      exAr:"القول «هذا الدواء فعّال» يقتضي أدلةً تجريبية.", exId:"“Obat ini efektif” harus disertai bukti uji klinis."},
+
+    // Definisi (5-12)
+    {no:5, cat:"Definisi",
+      titleAr:"التعريف الجامع المانع", titleId:"Mencakup–Menghalangi (jāmi‘–māni‘)",
+      descAr:"يجب أن يجمع التعريفُ جميعَ أفراده ويمنع دخول غيره.",
+      descId:"Definisi harus mencakup semua yang didefinisikan dan menolak yang bukan bagiannya.",
+      exAr:"المثلث: شكلٌ مستوٍ ذو ثلاثة أضلاع.", exId:"Segitiga: bangun datar bersisi tiga."},
+    {no:6, cat:"Definisi",
+      titleAr:"أوضح من المعرَّف", titleId:"Lebih Jelas dari Terdefinisi",
+      descAr:"ينبغي أن يكون التعريف أظهرَ من الشيء المعرَّف.",
+      descId:"Definisi mesti lebih terang daripada yang didefinisikan.",
+      exAr:"تعريف الماء بـ H2O أوضح من «سائل شفاف».", exId:"“Air” didefinisikan sebagai H2O lebih jelas daripada “cairan bening”."},
+    {no:7, cat:"Definisi",
+      titleAr:"منع الدور في التعريف", titleId:"Tidak Sirkular (dawr)",
+      descAr:"لا يجوز أن يعرَّف الشيء بنفسه أو بتبادلٍ دوريّ للتعاريف.",
+      descId:"Definisi tidak boleh berputar pada dirinya atau saling mendefinisikan secara melingkar.",
+      exAr:"«الطالب: من كان طالبًا» تعريف دائري.", exId:"“Mahasiswa: orang yang berstatus mahasiswa.” (sirkular)"},
+    {no:8, cat:"Definisi",
+      titleAr:"منع الأعمّ والأخصّ", titleId:"Tidak Terlalu Umum/Khusus",
+      descAr:"لا ينبغي أن يكون التعريف أوسعَ أو أضيقَ من المعرَّف.",
+      descId:"Definisi tidak boleh terlalu luas atau sempit.",
+      exAr:"«الطير: حيوان يطير» أوسع؛ فالخفّاش يطير وليس بطير.", exId:"“Burung: hewan yang bisa terbang” terlalu luas (kelelawar terbang tapi bukan burung)."},
+    {no:9, cat:"Definisi",
+      titleAr:"تجنّب المجاز في التعريف", titleId:"Bukan Metaforis (majāzi)",
+      descAr:"التعريف يعتمد الحقيقةَ اللغوية لا المجاز الموهِم.",
+      descId:"Gunakan makna hakiki, bukan kiasan yang menimbulkan syubhat.",
+      exAr:"«القلب: باب الشجاعة» مجاز لا تعريف.", exId:"“Hati: pintu keberanian” (kiasan, bukan definisi)."},
+    {no:10, cat:"Definisi",
+      titleAr:"الجنس القريب والفصل", titleId:"Genus Dekat + Pembeda (differentia)",
+      descAr:"الصيغة المثلى: جنسٌ قريب + فصلٌ مقوِّم.",
+      descId:"Format ideal: genus dekat + pembeda esensial.",
+      exAr:"الإنسان: حيوان ناطق.", exId:"Manusia: hewan rasional."},
+    {no:11, cat:"Definisi",
+      titleAr:"الرسم (تامٌّ أو ناقص)", titleId:"Rasm (Ciri Khas)",
+      descAr:"يجوز الوصف بالخواصّ إذا تعذّر ضبطُ الماهية.",
+      descId:"Deskripsi melalui ciri khas sah bila esensi sulit diungkap.",
+      exAr:"المثلث: شكلٌ له ثلاث زوايا.", exId:"Segitiga: bangun dengan tiga sudut."},
+    {no:12, cat:"Definisi",
+      titleAr:"التعريف السلبي", titleId:"Definisi Negatif",
+      descAr:"الاقتصارُ على النفي غالبًا غيرُ كافٍ إلا على سبيل التقييد المؤقّت.",
+      descId:"Definisi dengan negasi murni umumnya kurang memadai kecuali sementara.",
+      exAr:"الظلمة: عدم النور (مقبول سياقيًّا).", exId:"“Gelap” sebagai “tiadanya cahaya” dapat digunakan kontekstual."},
+
+    // Lima Universal (13-17)
+    {no:13, cat:"Lima Universal",
+      titleAr:"الجنس", titleId:"Genus (jins)",
+      descAr:"معنى كُلّيّ يندرج تحته أنواعٌ متعددة.",
+      descId:"Hakikat umum yang menaungi beberapa spesies.",
+      exAr:"«الحيوان» جنسٌ للإنسان والحصان والبقر.", exId:"“Hewan” sebagai genus bagi manusia, kuda, sapi."},
+    {no:14, cat:"Lima Universal",
+      titleAr:"النوع", titleId:"Spesies (naw‘)",
+      descAr:"تمام الماهية تحت الجنس وفوق الفرد.",
+      descId:"Esensi lengkap di bawah genus dan di atas individu.",
+      exAr:"«الإنسان» نوعٌ تحت جنس «الحيوان».", exId:"“Manusia” adalah spesies di bawah genus “hewan”."},
+    {no:15, cat:"Lima Universal",
+      titleAr:"الفصل", titleId:"Pembeda Esensial (faṣl)",
+      descAr:"صفةٌ مقوِّمة تميّز نوعًا عن غيره.",
+      descId:"Sifat esensial yang membedakan satu spesies dari lainnya.",
+      exAr:"«ناطق» يميّز الإنسان عن سائر الحيوان.", exId:"“Rasional” membedakan manusia dari hewan lain."},
+    {no:16, cat:"Lima Universal",
+      titleAr:"الخاصّة", titleId:"Kekhasan (khāṣṣah/proprium)",
+      descAr:"صفةٌ لازمة لنوع وليست جزءًا من ماهيته.",
+      descId:"Sifat khas yang lazim bagi spesies namun bukan bagian esensinya.",
+      exAr:"«القدرة على الضحك» خاصّة للإنسان.", exId:"“Mampu tertawa” khas manusia."},
+    {no:17, cat:"Lima Universal",
+      titleAr:"العرض العام", titleId:"Sifat Aksidental (‘araḍ ‘ām)",
+      descAr:"صفةٌ عارضة تعمّ أنواعًا ولا تُقوِّم الماهية.",
+      descId:"Sifat yang bisa melekat pada banyak jenis, tidak esensial.",
+      exAr:"«الشَّقْراء» عرضٌ للإنسان.", exId:"“Berambut pirang” pada manusia."},
+
+    // Istilah Kunci (18-23)
+    {no:18, cat:"Istilah Kunci",
+      titleAr:"الكُلّي والجزئي", titleId:"Universal vs Partikular (kullī vs juz’ī)",
+      descAr:"الكُلّي يُحمَل على كثيرين؛ والجزئي على فردٍ معيّن.",
+      descId:"Universal berlaku atas banyak; partikular pada individu.",
+      exAr:"«الإنسان» كلّي؛ «زيد» جزئي.", exId:"“Manusia” universal; “Zaid” partikular."},
+    {no:19, cat:"Istilah Kunci",
+      titleAr:"المطلق والمقيَّد", titleId:"Mutlak vs Terikat (muṭlaq vs muqayyad)",
+      descAr:"المطلق بلا قيد؛ والمقيَّد مضاف إليه وصفٌ أو شرط.",
+      descId:"Tanpa syarat vs terikat keterangan.",
+      exAr:"«ماء» مطلق؛ «ماء دافئ» مقيَّد.", exId:"“Air” mutlak; “air hangat” terikat sifat hangat."},
+    {no:20, cat:"Istilah Kunci",
+      titleAr:"المفرد والمركّب", titleId:"Mufrad vs Murakkab",
+      descAr:"المفرد لفظٌ واحد؛ والمركّب تركيبٌ ذو بنية.",
+      descId:"Satu lafaz vs rangkaian terstruktur.",
+      exAr:"«شجرة» مفرد؛ «شجرةٌ عاليةٌ في الحديقة» مركّب.", exId:"“Pohon” (mufrad); “pohon tinggi di taman” (murakkab)."},
+    {no:21, cat:"Istilah Kunci",
+      titleAr:"المتواطئ والمشترك اللفظي", titleId:"Univokal vs Equivokal (musytarak)",
+      descAr:"المتواطئ لمعنى واحد؛ والمشترك لمعانٍ متعدّدة.",
+      descId:"Satu lafaz satu makna vs satu lafaz banyak makna.",
+      exAr:"«العين»: عضو البصر/عين الماء/الجاسوس.", exId:"“Ain”: mata/ mata air/ mata-mata."},
+    {no:22, cat:"Istilah Kunci",
+      titleAr:"الحقيقة والمجاز", titleId:"Hakiki vs Majazi",
+      descAr:"الحقيقة المعنى الأصلي؛ والمجاز المعنى المنقول.",
+      descId:"Makna asli/konvensi asal vs makna pindahan/kiasan.",
+      exAr:"«رأس» للرأس العضوي (حقيقة) و«رأس المدرسة» (مجاز).", exId:"“Kepala” (bagian tubuh) vs “kepala sekolah”."},
+    {no:23, cat:"Istilah Kunci",
+      titleAr:"التصوّر والتصديق", titleId:"Konsepsi vs Penetapan (taṣawwur vs taṣdīq)",
+      descAr:"التصوّر إدراكٌ بلا حكم؛ والتصديق حكمٌ بالصدق أو الكذب.",
+      descId:"Konsepsi tanpa penilaian vs penilaian benar/salah.",
+      exAr:"مفهوم «الكوكب» تصوّر؛ و«الأرض تدور حول الشمس» تصديق.", exId:"Konsep “planet” vs “Bumi mengitari Matahari”."},
+
+    // Proposisi (24-29)
+    {no:24, cat:"Proposisi",
+      titleAr:"القضية الكلّية الموجبة (A)", titleId:"A — Universal Afirmatif",
+      descAr:"«كل س هو ب».", descId:"“Semua S adalah P.”",
+      exAr:"كل الثدييات تتنفّس بالرئتين.", exId:"Semua mamalia bernapas dengan paru-paru."},
+    {no:25, cat:"Proposisi",
+      titleAr:"القضية الكلّية السالبة (E)", titleId:"E — Universal Negatif",
+      descAr:"«لا شيء من س هو ب».", descId:"“Tidak ada S yang P.”",
+      exAr:"لا شيء من المثلثات مربّع.", exId:"Tidak ada segitiga yang bersisi empat."},
+    {no:26, cat:"Proposisi",
+      titleAr:"القضية الجزئية الموجبة (I)", titleId:"I — Partikular Afirmatif",
+      descAr:"«بعض س هو ب».", descId:"“Sebagian S adalah P.”",
+      exAr:"بعضُ القططِ بيضاءُ الفراء.", exId:"Sebagian kucing berbulu putih."},
+    {no:27, cat:"Proposisi",
+      titleAr:"القضية الجزئية السالبة (O)", titleId:"O — Partikular Negatif",
+      descAr:"«بعض س ليس ب».", descId:"“Sebagian S bukan P.”",
+      exAr:"بعضُ الطيور لا تطير (كالـبطريق).", exId:"Sebagian burung tidak bisa terbang (mis. penguin)."},
+    {no:28, cat:"Proposisi",
+      titleAr:"القضية الشخصية", titleId:"Proposisi Singular",
+      descAr:"تتعلّق بفردٍ معيّن.", descId:"Tentang individu tertentu.",
+      exAr:"سقراط إنسان.", exId:"Socrates adalah manusia."},
+    {no:29, cat:"Proposisi",
+      titleAr:"القضية المهملة", titleId:"Proposisi Indefinit (muhmalah)",
+      descAr:"بلا كميّةٍ مصرَّح بها؛ يحدّدها السياق.",
+      descId:"Tanpa kuantor eksplisit; maknanya ditentukan konteks.",
+      exAr:"«القط يأكل السمك».", exId:"“Kucing makan ikan.”"},
+
+    // Distribusi & Kuantor (30-34)
+    {no:30, cat:"Distribusi & Kuantor",
+      titleAr:"التوزيع في (A)", titleId:"Distribusi pada A",
+      descAr:"في الكلّية الموجبة: الموضوع موزّع والمحمول غير موزّع.",
+      descId:"Pada A, subjek terdistribusi; predikat tidak.",
+      exAr:"في «كل س ب» يشمل كل أفراد س ولا يعمّ ب.", exId:"Pada “Semua S P”, semua S tercakup, P tidak meluas."},
+    {no:31, cat:"Distribusi & Kuantor",
+      titleAr:"التوزيع في (E)", titleId:"Distribusi pada E",
+      descAr:"في الكلّية السالبة: الموضوع والمحمول موزّعان.",
+      descId:"Pada E, subjek dan predikat terdistribusi.",
+      exAr:"«لا شيء من س ب» يوزّع س وب معًا.", exId:"Pada “Tidak ada S P”, baik S maupun P meluas."},
+    {no:32, cat:"Distribusi & Kuantor",
+      titleAr:"التوزيع في (I)", titleId:"Distribusi pada I",
+      descAr:"في الجزئية الموجبة: لا يتوزّع شيءٌ من الحدّين.",
+      descId:"Pada I, tidak ada term yang terdistribusi.",
+      exAr:"«بعض س ب» لا يعمّ س ولا ب.", exId:"“Sebagian S P” tidak meluaskan S atau P."},
+    {no:33, cat:"Distribusi & Kuantor",
+      titleAr:"التوزيع في (O)", titleId:"Distribusi pada O",
+      descAr:"في الجزئية السالبة: المحمول موزّع والموضوع غير موزّع.",
+      descId:"Pada O, predikat terdistribusi; subjek tidak.",
+      exAr:"«بعض س ليس ب» يعمّ ب.", exId:"“Sebagian S bukan P” meluaskan P."},
+    {no:34, cat:"Distribusi & Kuantor",
+      titleAr:"افتراض الوجود", titleId:"Asumsi Eksistensial",
+      descAr:"علاقات التحتية الكلاسيكية تفترض وجود الموضوع.",
+      descId:"Hubungan subaltern klasik mengandaikan eksistensi subjek.",
+      exAr:"قضايا «كل وحيد القرن …» لا تستلزم «بعض وحيد القرن …» لعدم الوجود.", exId:"“Semua unicorn …” tidak mengizinkan “Sebagian unicorn …” bila unicorn tidak ada."},
+
+    // Persegi Oposisi (35-40)
+    {no:35, cat:"Persegi Oposisi",
+      titleAr:"التناقض", titleId:"Kontradiktori",
+      descAr:"A مع O و E مع I: يصدق أحدهما ويكذب الآخر قطعًا.",
+      descId:"A ↔ O dan E ↔ I: tepat satu benar, satu salah.",
+      exAr:"«كل س ب» يناقض «بعض س ليس ب».", exId:"“Semua S P” bertentangan dengan “Sebagian S bukan P”."},
+    {no:36, cat:"Persegi Oposisi",
+      titleAr:"التضاد", titleId:"Kontrari",
+      descAr:"A مع E: لا يجتمعان في الصدق وقد يجتمعان في الكذب.",
+      descId:"A ↔ E: tidak bisa sama-sama benar; bisa sama-sama salah.",
+      exAr:"«كل الناس صادقون» و«لا أحد من الناس صادق».", exId:"“Semua manusia jujur” vs “Tidak ada manusia jujur”."},
+    {no:37, cat:"Persegi Oposisi",
+      titleAr:"التحت تضاد", titleId:"Subkontrari",
+      descAr:"I مع O: لا يجتمعان في الكذب وقد يجتمعان في الصدق.",
+      descId:"I ↔ O: tidak bisa sama-sama salah; bisa sama-sama benar.",
+      exAr:"«بعض الطلاب نجح» و«بعض الطلاب لم ينجح».", exId:"“Sebagian siswa lulus” vs “Sebagian siswa tidak lulus”."},
+    {no:38, cat:"Persegi Oposisi",
+      titleAr:"التحتية (الاستلزام)", titleId:"Subalternasi",
+      descAr:"صدق A يستلزم صدق I، وصدق E يستلزم صدق O؛ وكذب الأدنى يستلزم كذب الأعلى.",
+      descId:"A⇒I dan E⇒O: kebenaran turun; kebohongan naik.",
+      exAr:"إذا صدقت «كل الطيور تبيض» صدقت «بعض الطيور تبيض».", exId:"Jika “Semua burung bertelur” benar, maka “Sebagian burung bertelur” benar."},
+    {no:39, cat:"Persegi Oposisi",
+      titleAr:"شرط الجريان", titleId:"Syarat Keberlakuan",
+      descAr:"يختلّ المربّع مع الموضوع الفارغ من الأفراد.",
+      descId:"Persegi klasik gagal tanpa eksistensi subjek.",
+      exAr:"مع «وحيد القرن» لا تجري علاقة A–I لتوهّم الوجود.", exId:"Dengan S kosong (“unicorn”), relasi A–I tidak berlaku."},
+    {no:40, cat:"Persegi Oposisi",
+      titleAr:"الحذر في الفراغ", titleId:"Konsistensi Klasik",
+      descAr:"استعمل المربّع الكلاسيكي بحذر عند خلوّ الموضوع من الأفراد.",
+      descId:"Gunakan persegi klasik hati-hati pada istilah kosong.",
+      exAr:"تجنّب القضايا عن أشياء غير موجودة.", exId:"Hindari subjek tanpa eksistensi faktual."},
+
+    // Operasi Logis (41-45)
+    {no:41, cat:"Operasi Logis",
+      titleAr:"القلب (Obversion)", titleId:"Obversi",
+      descAr:"تحويل الكيف مع أخذ نقيض المحمول؛ صحيح في A/E/I/O.",
+      descId:"Ubah kualitas dan komplemenkan predikat; sah untuk A/E/I/O.",
+      exAr:"A: «كل س ب» → «لا شيء من س غيرُ ب».", exId:"A: “Semua S P” → “Tidak ada S non‑P”."},
+    {no:42, cat:"Operasi Logis",
+      titleAr:"العكس المستوي", titleId:"Konversi Sederhana",
+      descAr:"مبادلة الموضوع والمحمول؛ يصحّ في E و I.",
+      descId:"Tukar subjek–predikat; sah untuk E dan I.",
+      exAr:"E: «لا شيء من القطط زواحف» → «لا شيء من الزواحف قطط». I: «بعض الناس فنّانون» → «بعض الفنّانين ناس».", exId:"E: “Tidak ada kucing reptil” → “Tidak ada reptil kucing”. I: “Sebagian manusia seniman” → “Sebagian seniman manusia”."},
+    {no:43, cat:"Operasi Logis",
+      titleAr:"العكس الناقص", titleId:"Konversi per Accidens",
+      descAr:"A تنقلب إلى I؛ و O لا تنعكس.",
+      descId:"A ⇒ I saat dikonversi; O tidak dapat dikonversi.",
+      exAr:"«كل الأطبّاء متعلّمون» → «بعض المتعلّمين أطبّاء».", exId:"A: “Semua dokter terdidik” → “Sebagian terdidik dokter”."},
+    {no:44, cat:"Operasi Logis",
+      titleAr:"العكس بالنقيض", titleId:"Kontraposisi",
+      descAr:"يصحّ في A و O؛ ولا يصحّ في E/I على الإطلاق.",
+      descId:"Sah untuk A dan O; E/I tidak sah secara umum.",
+      exAr:"A: «كل الثدييات تتنفّس» → «كل من لا يتنفّس فليس بثديي».", exId:"A: “Semua mamalia bernapas” → “Semua yang tidak bernapas bukan mamalia”."},
+    {no:45, cat:"Operasi Logis",
+      titleAr:"البرهان بالخلف", titleId:"Reductio ad Absurdum",
+      descAr:"نفرض نقيض المطلوب؛ فإن أدّى إلى محال ثبت المطلوب.",
+      descId:"Andaikan kebalikan kesimpulan; jika berujung kontradiksi, kesimpulan sah.",
+      exAr:"افترض أن √2 نسبي ⇒ تناقض ⇒ إذن هو غير نسبي.", exId:"Asumsikan √2 rasional → kontradiksi; maka √2 irasional."},
+
+    // Silogisme — Aturan Umum (46-55)
+    {no:46, cat:"Silogisme",
+      titleAr:"ثلاثة حدود", titleId:"Tiga Term",
+      descAr:"القياس الحملي مركّب من حدّ أكبر وأصغر وأوسط.",
+      descId:"Silogisme terdiri dari mayor, minor, dan term tengah (M).",
+      exAr:"الكبرى: كل م ب؛ الصغرى: كل س م؛ الأوسط «م» رابط.", exId:"Mayor: Semua M P; Minor: Semua S M; M adalah penghubung."},
+    {no:47, cat:"Silogisme",
+      titleAr:"لزوم توزيع الأوسط", titleId:"Term Tengah Terdistribusi",
+      descAr:"يجب أن يتوزّع الحدّ الأوسط في إحدى المقدّمتين على الأقل.",
+      descId:"Term tengah harus terdistribusi minimal sekali.",
+      exAr:"«كل القطط حيوانات؛ كل الكلاب حيوانات…» غير صحيح لعدم توزيع «حيوانات».", exId:"“Semua kucing hewan; Semua anjing hewan; …” tidak sah (M ‘hewan’ tak meluas)."},
+    {no:48, cat:"Silogisme",
+      titleAr:"منع التوزيع غير المشروع", titleId:"Larangan Illicit",
+      descAr:"ما توزّع في النتيجة يجب أن يتوزّع في مقدّمته.",
+      descId:"Jika term terdistribusi di kesimpulan, ia harus terdistribusi di premisnya.",
+      exAr:"«كل القطط ثدييات؛ كل الثدييات حيوانات؛ إذًا كل الحيوانات قطط» — خطأ (تجاوز في الأكبر).", exId:"“Semua kucing mamalia; Semua mamalia hewan; Maka semua hewan kucing” — salah (illicit major)."},
+    {no:49, cat:"Silogisme",
+      titleAr:"ممنوع اجتماع سالبتين", titleId:"Dua Premis Negatif",
+      descAr:"اجتماع مقدّمتين سالبتين لا يُنتج نتيجة.",
+      descId:"Tidak menghasilkan kesimpulan.",
+      exAr:"«لا شيء من م ب؛ لا شيء من س م؛ …» ⇒ لا نتيجة.", exId:"“Tidak ada M yang P; Tidak ada S yang M; …” ⇒ tidak ada kesimpulan."},
+    {no:50, cat:"Silogisme",
+      titleAr:"ممنوع اجتماع جزئيتين", titleId:"Dua Premis Partikular",
+      descAr:"اجتماع مقدّمتين جزئيتين لا يُنتج.",
+      descId:"Tidak menghasilkan kesimpulan.",
+      exAr:"«بعض م ب؛ بعض س م؛ …» ⇒ لا نتيجة.", exId:"“Sebagian M P; Sebagian S M; …” ⇒ tidak ada kesimpulan."},
+    {no:51, cat:"Silogisme",
+      titleAr:"موجبتان لا تُنتجان سالبة", titleId:"Dua Afirmasi ⇒ Bukan Negasi",
+      descAr:"لا تنتج مقدّمتان موجبتان نتيجةً سالبة.",
+      descId:"Dua premis afirmatif tak boleh menghasilkan konklusi negatif.",
+      exAr:"«كل م ب؛ كل س م؛» لا تنتج «بعض س ليس ب».", exId:"“Semua M P; Semua S M;” tidak boleh menghasilkan “Sebagian S bukan P”."},
+    {no:52, cat:"Silogisme",
+      titleAr:"السالبة تستلزم سالبة", titleId:"Jika Premis Negatif",
+      descAr:"إن كانت إحدى المقدّمتين سالبة فالنتيجة سالبة.",
+      descId:"Jika salah satu premis negatif, kesimpulan harus negatif.",
+      exAr:"«لا شيء من م ب؛ كل س م؛ ⇒ لا شيء من س ب».", exId:"“Tidak ada M yang P; Semua S M;” ⇒ “Tidak ada S yang P”."},
+    {no:53, cat:"Silogisme",
+      titleAr:"الجزئية تستلزم جزئية", titleId:"Jika Premis Partikular",
+      descAr:"إن كانت إحدى المقدّمتين جزئية فالنتيجة جزئية.",
+      descId:"Jika salah satu premis partikular, konklusi partikular.",
+      exAr:"«كل م ب؛ بعض س م؛ ⇒ بعض س ب».", exId:"“Semua M P; Sebagian S M;” ⇒ “Sebagian S P”."},
+    {no:54, cat:"Silogisme",
+      titleAr:"لزوم كلّية واحدة على الأقل", titleId:"Minimal Satu Universal",
+      descAr:"يلزم وجود مقدّمة كلّية واحدة على الأقل لنتيجة صحيحة.",
+      descId:"Paling tidak satu premis universal untuk konklusi yang sah.",
+      exAr:"جزئيتان لا تكفيان لنتيجة لازمة.", exId:"Dua premis partikular tak cukup untuk konklusi sah."},
+    {no:55, cat:"Silogisme",
+      titleAr:"النتيجة لا تزيد على المقدّمات", titleId:"Konklusi Tidak Meluas",
+      descAr:"لا يجوز أن تكون النتيجة أعمّ من مادّة المقدّمات.",
+      descId:"Konklusi tidak boleh lebih umum dari premis-premisnya.",
+      exAr:"لا تُستنتَج كلّية من مقدّمات جزئية.", exId:"Dari premis partikular tak sah menyimpulkan universal."},
+
+    // Moods Silogistik (56-74)
+    {no:56, cat:"Moods Silogistik",
+      titleAr:"بربرا (AAA-1)", titleId:"Barbara (AAA-1)",
+      descAr:"صحيح: كل م ب؛ كل س م؛ إذًا كل س ب.",
+      descId:"Valid: Semua M adalah P; Semua S adalah M; maka Semua S adalah P.",
+      exAr:"كل الثدييات ذاتُ دمٍ حار؛ كل الحيتان ثدييات؛ إذًا كل الحيتان ذاتُ دمٍ حار.", exId:"Semua mamalia berdarah panas; Semua paus mamalia; Maka semua paus berdarah panas."},
+    {no:57, cat:"Moods Silogistik",
+      titleAr:"سِلارِنت (EAE-1)", titleId:"Celarent (EAE-1)",
+      descAr:"صحيح: لا شيء من م ب؛ كل س م؛ إذًا لا شيء من س ب.",
+      descId:"Valid: Tidak ada M yang P; Semua S adalah M; maka Tidak ada S yang P.",
+      exAr:"لا شيء من الزواحف ذواتُ دمٍ حار؛ كل الأفاعي زواحف؛ إذًا لا شيء من الأفاعي ذو دمٍ حار.", exId:"Tidak ada reptil berdarah panas; Semua ular reptil; Maka tidak ada ular berdarah panas."},
+    {no:58, cat:"Moods Silogistik",
+      titleAr:"داريي (AII-1)", titleId:"Darii (AII-1)",
+      descAr:"صحيح: كل م ب؛ بعض س م؛ إذًا بعض س ب.",
+      descId:"Valid: Semua M adalah P; Sebagian S adalah M; maka Sebagian S adalah P.",
+      exAr:"كل الثدييات تُرضِع؛ بعض حيوانات البحر ثدييات؛ إذًا بعض حيوانات البحر تُرضِع.", exId:"Semua mamalia menyusui; Sebagian hewan laut mamalia; Maka sebagian hewan laut menyusui."},
+    {no:59, cat:"Moods Silogistik",
+      titleAr:"فِريو (EIO-1)", titleId:"Ferio (EIO-1)",
+      descAr:"صحيح: لا شيء من م ب؛ بعض س م؛ إذًا بعض س ليس ب.",
+      descId:"Valid: Tidak ada M yang P; Sebagian S adalah M; maka Sebagian S bukan P.",
+      exAr:"لا شيء من الطيور ثدييات؛ بعض الحيوانات الطائرة طيور؛ إذًا بعض الحيوانات الطائرة ليست ثدييات.", exId:"Tidak ada burung mamalia; Sebagian hewan terbang burung; Maka sebagian hewan terbang bukan mamalia."},
+
+    {no:60, cat:"Moods Silogistik",
+      titleAr:"سِزارِه (EAE-2)", titleId:"Cesare (EAE-2)",
+      descAr:"صحيح: لا شيء من ب م؛ كل س ب؛ إذًا لا شيء من س م.",
+      descId:"Valid: Tidak ada P yang M; Semua S adalah P; maka Tidak ada S yang M.",
+      exAr:"لا شيء من العواشب لَواحم؛ كل الخيل عواشب؛ إذًا لا شيء من الخيل لَواحم.", exId:"Tidak ada herbivora karnivora; Semua kuda herbivora; Maka tidak ada kuda karnivora."},
+    {no:61, cat:"Moods Silogistik",
+      titleAr:"كامِسترس (AEE-2)", titleId:"Camestres (AEE-2)",
+      descAr:"صحيح: كل ب م؛ لا شيء من س ب؛ إذًا لا شيء من س م.",
+      descId:"Valid: Semua P adalah M; Tidak ada S yang P; maka Tidak ada S yang M.",
+      exAr:"كل الحيوانات اللاحمة آكلةُ لحم؛ لا شيء من الأبقار حيوانٌ لاحم؛ إذًا لا شيء من الأبقار آكلٌ للحم.", exId:"Semua karnivora pemakan daging; Tidak ada sapi karnivora; Maka tidak ada sapi pemakan daging."},
+    {no:62, cat:"Moods Silogistik",
+      titleAr:"فِستينو (EIO-2)", titleId:"Festino (EIO-2)",
+      descAr:"صحيح: لا شيء من ب م؛ بعض س ب؛ إذًا بعض س ليس م.",
+      descId:"Valid: Tidak ada P yang M; Sebagian S adalah P; maka Sebagian S bukan M.",
+      exAr:"لا شيء من العواشب لواحم؛ بعض الغزلان عواشب؛ إذًا بعض الغزلان ليست لواحم.", exId:"Tidak ada herbivora karnivora; Sebagian rusa herbivora; Maka sebagian rusa bukan karnivora."},
+    {no:63, cat:"Moods Silogistik",
+      titleAr:"باروكو (AOO-2)", titleId:"Baroco (AOO-2)",
+      descAr:"صحيح: كل ب م؛ بعض س ليس م؛ إذًا بعض س ليس ب.",
+      descId:"Valid: Semua P adalah M; Sebagian S bukan M; maka Sebagian S bukan P.",
+      exAr:"كل الطيور حيوانات؛ بعض الروبوتات ليست حيوانات؛ إذًا بعض الروبوتات ليست طيورًا.", exId:"Semua burung hewan; Sebagian robot bukan hewan; Maka sebagian robot bukan burung."},
+
+    {no:64, cat:"Moods Silogistik",
+      titleAr:"دارَبتِي (AAI-3)", titleId:"Darapti (AAI-3)",
+      descAr:"صحيح (وجودي): كل م ب؛ كل م س؛ إذًا بعض س ب.",
+      descId:"Valid (eksistensial): Semua M adalah P; Semua M adalah S; maka Sebagian S adalah P.",
+      exAr:"كل البشر يتنفّسون؛ كل البشر ثدييات؛ إذًا بعض الثدييات يتنفّسون.", exId:"Semua manusia bernapas; Semua manusia mamalia; Maka sebagian mamalia bernapas."},
+    {no:65, cat:"Moods Silogistik",
+      titleAr:"دِسامِس (IAI-3)", titleId:"Disamis (IAI-3)",
+      descAr:"صحيح: بعض م ب؛ كل م س؛ إذًا بعض س ب.",
+      descId:"Valid: Sebagian M adalah P; Semua M adalah S; maka Sebagian S adalah P.",
+      exAr:"بعض البشر يلبسون نظارات؛ كل البشر ثدييات؛ إذًا بعض الثدييات يلبسون نظارات.", exId:"Sebagian manusia berkacamata; Semua manusia mamalia; Maka sebagian mamalia berkacamata."},
+    {no:66, cat:"Moods Silogistik",
+      titleAr:"داتِسِي (AII-3)", titleId:"Datisi (AII-3)",
+      descAr:"صحيح: كل م ب؛ بعض م س؛ إذًا بعض س ب.",
+      descId:"Valid: Semua M adalah P; Sebagian M adalah S; maka Sebagian S adalah P.",
+      exAr:"كل البشر يتكلّمون؛ بعض البشر أساتذة؛ إذًا بعض الأساتذة يتكلّمون.", exId:"Semua manusia berbahasa; Sebagian manusia dosen; Maka sebagian dosen berbahasa."},
+    {no:67, cat:"Moods Silogistik",
+      titleAr:"فِلابتون (EAO-3)", titleId:"Felapton (EAO-3)",
+      descAr:"صحيح: لا شيء من م ب؛ كل م س؛ إذًا بعض س ليس ب.",
+      descId:"Valid: Tidak ada M yang P; Semua M adalah S; maka Sebagian S bukan P.",
+      exAr:"لا شيء من المثلثات رباعيّ الأضلاع؛ كل المثلثات مُضلّعات؛ إذًا بعض المضلّعات ليست رباعيّة الأضلاع.", exId:"Tidak ada segitiga bersisi empat; Semua segitiga poligon; Maka sebagian poligon bukan bersisi empat."},
+    {no:68, cat:"Moods Silogistik",
+      titleAr:"بوكاردو (OAO-3)", titleId:"Bocardo (OAO-3)",
+      descAr:"صحيح: بعض م ليس ب؛ كل م س؛ إذًا بعض س ليس ب.",
+      descId:"Valid: Sebagian M bukan P; Semua M adalah S; maka Sebagian S bukan P.",
+      exAr:"بعض الثدييات لا تبيض؛ كل الثدييات حيوانات؛ إذًا بعض الحيوانات لا تبيض.", exId:"Sebagian mamalia tidak bertelur; Semua mamalia hewan; Maka sebagian hewan tidak bertelur."},
+    {no:69, cat:"Moods Silogistik",
+      titleAr:"فِريسون (EIO-3)", titleId:"Ferison (EIO-3)",
+      descAr:"صحيح: لا شيء من م ب؛ بعض م س؛ إذًا بعض س ليس ب.",
+      descId:"Valid: Tidak ada M yang P; Sebagian M adalah S; maka Sebagian S bukan P.",
+      exAr:"لا شيء من الزواحف ذاتُ شعر؛ بعض الزواحف حيوانات أليفة؛ إذًا بعض الحيوانات الأليفة ليست ذاتَ شعر.", exId:"Tidak ada reptil berambut; Sebagian reptil hewan peliharaan; Maka sebagian hewan peliharaan bukan berambut."},
+
+    {no:70, cat:"Moods Silogistik",
+      titleAr:"برامنتِب (AAI-4)", titleId:"Bramantip (AAI-4)",
+      descAr:"صحيح (وجودي): كل ب م؛ كل م س؛ إذًا بعض ب س.",
+      descId:"Valid (eksistensial): Semua P adalah M; Semua M adalah S; maka Sebagian P adalah S.",
+      exAr:"كل الطيور حيوانات؛ كل الحيوانات كائنات تتنفّس؛ إذًا بعض الطيور كائنات تتنفّس.", exId:"Semua burung hewan; Semua hewan makhluk bernapas; Maka sebagian burung makhluk bernapas."},
+    {no:71, cat:"Moods Silogistik",
+      titleAr:"كامِينِس (AEE-4)", titleId:"Camenes (AEE-4)",
+      descAr:"صحيح: كل ب م؛ لا شيء من م س؛ إذًا لا شيء من ب س.",
+      descId:"Valid: Semua P adalah M; Tidak ada M yang S; maka Tidak ada P yang S.",
+      exAr:"كل الطيور حيوانات؛ لا شيء من الحيوانات جماد؛ إذًا لا شيء من الطيور جماد.", exId:"Semua burung hewan; Tidak ada hewan benda tak hidup; Maka tidak ada burung benda tak hidup."},
+    {no:72, cat:"Moods Silogistik",
+      titleAr:"دِمارِس (IAI-4)", titleId:"Dimaris (IAI-4)",
+      descAr:"صحيح: بعض ب م؛ كل م س؛ إذًا بعض ب س.",
+      descId:"Valid: Sebagian P adalah M; Semua M adalah S; maka Sebagian P adalah S.",
+      exAr:"بعض الطيور حيوانات أليفة؛ كل الحيوانات الأليفة لها ملاك؛ إذًا بعض الطيور لها ملاك.", exId:"Sebagian burung hewan peliharaan; Semua hewan peliharaan bertuan; Maka sebagian burung bertuan."},
+    {no:73, cat:"Moods Silogistik",
+      titleAr:"فِسَابو (EAO-4)", titleId:"Fesapo (EAO-4)",
+      descAr:"صحيح: لا شيء من ب م؛ كل م س؛ إذًا بعض ب ليس س.",
+      descId:"Valid: Tidak ada P yang M; Semua M adalah S; maka Sebagian P bukan S.",
+      exAr:"لا شيء من القطط أسماك؛ كل الأسماك حيوانات مائية؛ إذًا بعض القطط ليست حيوانات مائية.", exId:"Tidak ada kucing ikan; Semua ikan hewan akuatik; Maka sebagian kucing bukan hewan akuatik."},
+    {no:74, cat:"Moods Silogistik",
+      titleAr:"فِريسِسون (EIO-4)", titleId:"Fresison (EIO-4)",
+      descAr:"صحيح: لا شيء من ب م؛ بعض م س؛ إذًا بعض ب ليس س.",
+      descId:"Valid: Tidak ada P yang M; Sebagian M adalah S; maka Sebagian P bukan S.",
+      exAr:"لا شيء من الزواحف طيور؛ بعض الطيور حيوانات أليفة؛ إذًا بعض الزواحف ليست حيوانات أليفة.", exId:"Tidak ada reptil burung; Sebagian burung hewan peliharaan; Maka sebagian reptil bukan hewan peliharaan."},
+
+    // Logika Bersyarat (75-80)
+    {no:75, cat:"Logika Bersyarat",
+      titleAr:"إثبات الشرط (Modus Ponens)", titleId:"Modus Ponens",
+      descAr:"إن كان P ⇒ Q وثبت P فـ Q.",
+      descId:"Jika P→Q; P; maka Q.",
+      exAr:"إن كان المطرُ نازلًا فالأرضُ مبتلّة؛ وقد نزل المطر؛ إذًا الأرض مبتلّة.", exId:"Jika hujan maka jalan basah; Hujan; maka jalan basah."},
+    {no:76, cat:"Logika Bersyarat",
+      titleAr:"نفي التالي (Modus Tollens)", titleId:"Modus Tollens",
+      descAr:"إن كان P ⇒ Q وثبت ¬Q فـ ¬P.",
+      descId:"Jika P→Q; ¬Q; maka ¬P.",
+      exAr:"إن وُجدت نار وُجد دخان؛ ولم يوجد دخان؛ إذًا لا نار.", exId:"Jika ada api maka ada asap; Tidak ada asap; maka tidak ada api."},
+    {no:77, cat:"Logika Bersyarat",
+      titleAr:"قياس شرطي متسلسل", titleId:"Rantai Hipotetikal",
+      descAr:"إن كان P ⇒ Q و Q ⇒ R فـ P ⇒ R.",
+      descId:"Jika P→Q dan Q→R; maka P→R.",
+      exAr:"إن درستَ نجحتَ؛ وإن نجحتَ عملتَ؛ فـإن درستَ عملتَ.", exId:"Jika belajar → lulus; Jika lulus → kerja; Maka jika belajar → kerja."},
+    {no:78, cat:"Logika Bersyarat",
+      titleAr:"قياس فصلي", titleId:"Silogisme Disjungtif",
+      descAr:"P ∨ Q؛ وقد انتفى P؛ فـ Q.",
+      descId:"P ∨ Q; ¬P; maka Q.",
+      exAr:"إمّا في البيت وإمّا في المكتب؛ ليس في البيت؛ إذًا في المكتب.", exId:"Di rumah atau di kantor; Tidak di rumah; maka di kantor."},
+    {no:79, cat:"Logika Bersyarat",
+      titleAr:"مُعضِلة بنائية", titleId:"Dilema Konstruktif",
+      descAr:"(P⇒R) ∧ (Q⇒S) ∧ (P ∨ Q) ⇒ (R ∨ S).",
+      descId:"(P→R) ∧ (Q→S) ∧ (P ∨ Q) ⇒ (R ∨ S).",
+      exAr:"(الادخار ⇒ زيادةُ الرصيد) و(عملٌ جانبي ⇒ زيادةُ الدخل) ومع (الادخار أو العمل الجانبي) ⇒ (زيادة الرصيد أو زيادة الدخل).",
+      exId:"(Hemat→tabungan naik) & (Sampingan→pendapatan naik) & (Hemat ∨ Sampingan) ⇒ (Tabungan naik ∨ Pendapatan naik)."},
+    {no:80, cat:"Logika Bersyarat",
+      titleAr:"مُعضِلة هدميّة", titleId:"Dilema Destruktif",
+      descAr:"(P⇒R) ∧ (Q⇒S) ∧ (¬R ∨ ¬S) ⇒ (¬P ∨ ¬Q).",
+      descId:"(P→R) ∧ (Q→S) ∧ (¬R ∨ ¬S) ⇒ (¬P ∨ ¬Q).",
+      exAr:"(الإسراف ⇒ الدَّين) و(الكسل ⇒ الفشل) ومع (لا دَين أو لا فشل) ⇒ (لا إسراف أو لا كسل).",
+      exId:"(Boros→utang) & (Malas→gagal) & (Tidak utang ∨ Tidak gagal) ⇒ (Tidak boros ∨ Tidak malas)."},
+
+    // Induksi & Analogi (81-84)
+    {no:81, cat:"Induksi & Analogi",
+      titleAr:"عيّنةٌ مُمثِّلة", titleId:"Sampel Representatif",
+      descAr:"الاستقراء القوي يتطلّب عيّنةً كافيةً ومتنوّعة.",
+      descId:"Induksi kuat menuntut sampel memadai dan beragam.",
+      exAr:"الاستبيانُ الوطني بعينةٍ عشوائيّةٍ طبقيّة أمثلُ تمثيلًا.", exId:"Survei nasional dengan sampel acak berstrata lebih representatif."},
+    {no:82, cat:"Induksi & Analogi",
+      titleAr:"غيابُ النواقض المعتبرة", titleId:"Minim Penyanggah Relevan",
+      descAr:"قلّة الأمثلة المناقضة تعزّز التعميمَ الاستقرائي.",
+      descId:"Semakin sedikit kontra-kasus relevan, semakin kuat generalisasi.",
+      exAr:"«كلُّ المعادن تتمدّد بالحرارة» يقوِّيه نُدرةُ الأمثلة المخالفة.", exId:"Hipotesis “semua logam mengembang saat dipanaskan” diperkuat oleh ketiadaan contoh lawan."},
+    {no:83, cat:"Induksi & Analogi",
+      titleAr:"علّةٌ تمثيليّة معتبرة", titleId:"‘Illat/Alasan Relevan pada Analogi",
+      descAr:"يصحّ القياسُ التمثيلي إذا اشتركت المسألتان في علّة مؤثّرة.",
+      descId:"Analogi sah bila sebab/‘illah relevan sama-sama melekat.",
+      exAr:"تحريمُ X لضرره الصحي يُقاس عليه Y إذا كانت علّةُ الضرر مشتركة.", exId:"Melarang X karena membahayakan kesehatan dianalogikan ke Y bila faktor bahaya sama."},
+    {no:84, cat:"Induksi & Analogi",
+      titleAr:"الفارقُ المؤثِّر", titleId:"Perbedaan yang Mempengaruhi",
+      descAr:"يبطل القياسُ التمثيلي بوجود فارقٍ مؤثّر بين الأصل والفرع.",
+      descId:"Analogi gugur jika ada farq mu’atsir (pembeda relevan).",
+      exAr:"إلحاقُ السمك باللحوُم الحمراء في التغذية يُمنَع لفارقِ الكوليسترول.", exId:"Menyamakan ikan dengan daging merah dalam gizi dihalangi perbedaan kolesterol."},
+
+    // Jenis Argumentasi (85-89)
+    {no:85, cat:"Jenis Argumentasi",
+      titleAr:"البُرهان", titleId:"Demonstrasi (burhān)",
+      descAr:"يُنتج اليقين من مقدّماتٍ قطعيّة وعلاقةٍ سببيّة بيّنة.",
+      descId:"Menghasilkan yakin dari premis qath’i dan sebab-akibat yang jelas.",
+      exAr:"قوانين نيوتن تتنبّأ بمواقع الكواكب كما تُشاهَد.", exId:"Hukum Newton memprediksi posisi planet yang teramati."},
+    {no:86, cat:"Jenis Argumentasi",
+      titleAr:"الجَدل", titleId:"Dialektika (jadal)",
+      descAr:"يعتمد على المسلّمات والمقبولات؛ نافعٌ للمناظرة لا لليقين المطلق.",
+      descId:"Berdasar musallamât/maqbûlât; untuk debat, bukan kepastian mutlak.",
+      exAr:"الاحتجاجُ بالأعراف المتّفق عليها بين المتناظرين.", exId:"Memakai konvensi yang disepakati dalam perdebatan formal."},
+    {no:87, cat:"Jenis Argumentasi",
+      titleAr:"الخِطابة", titleId:"Retorika (khiṭābah)",
+      descAr:"إقناعٌ بالظنّ والعاطفة.",
+      descId:"Persuasi dengan probabilitas dan emosi.",
+      exAr:"إعلانٌ يستعمل شهاداتٍ مؤثّرة عاطفيًّا.", exId:"Iklan dengan testimoni emosional."},
+    {no:88, cat:"Jenis Argumentasi",
+      titleAr:"الشِّعر (التخييل)", titleId:"Puisi/Imaginatif (shi‘r)",
+      descAr:"يُحَرِّك الخيالَ ولا يُلزِمُ بالحجّة البرهانية.",
+      descId:"Menggerakkan imajinasi; bukan hujjah ilzāmiyah.",
+      exAr:"الاستعارةُ البليغةُ مُؤثِّرةٌ لا مُثبِتة.", exId:"Metafora puitik mengesankan namun bukan bukti logis."},
+    {no:89, cat:"Jenis Argumentasi",
+      titleAr:"السفسطة", titleId:"Sofistik (mughālathah)",
+      descAr:"إيهامُ الحجّة لإضلالِ المخاطَب.",
+      descId:"Kekeliruan yang tampak seperti hujjah untuk menyesatkan.",
+      exAr:"لَيُّ الألفاظ حتى يبدو الاستنتاجُ صحيحًا.", exId:"Memelintir istilah agar kesimpulan tampak benar."},
+
+    // Kekeliruan (90-100)
+    {no:90, cat:"Kekeliruan",
+      titleAr:"لا يلزم (Non Sequitur)", titleId:"Non Sequitur",
+      descAr:"النتيجة لا تتبع من المقدّمات.",
+      descId:"Kesimpulan tidak mengikuti premis.",
+      exAr:"«الطقسُ صحوٌ، إذن أنا غنيّ».", exId:"“Cuaca cerah, jadi saya pasti kaya.”"},
+    {no:91, cat:"Kekeliruan",
+      titleAr:"التلبيس الدلالي (الاشتراك اللفظي)", titleId:"Equivocation (Salah Tafsir Istilah)",
+      descAr:"تغيّرُ معنى الحدّ أثناء البرهان.",
+      descId:"Pergantian makna term di tengah argumen.",
+      exAr:"استعمال «خفيف» بمعنى «غير ثقيل» ثم «غير مهمّ».", exId:"“Ringan” (tidak berat) disalahpahami sebagai “tidak serius”."},
+    {no:92, cat:"Kekeliruan",
+      titleAr:"غموضٌ نحوي (Amphiboly)", titleId:"Amphiboly (Ambiguitas Struktur)",
+      descAr:"الغموض التركيبي يُفضي إلى سوء الفهم.",
+      descId:"Ambiguitas struktur kalimat melahirkan salah paham.",
+      exAr:"«رأيتُ الرجلَ بالتلسكوب»؛ مَن حاملُ التلسكوب؟", exId:"“Saya melihat orang dengan teleskop.” (siapa yang pegang teleskop?)"},
+    {no:93, cat:"Kekeliruan",
+      titleAr:"مغالطة التركيب", titleId:"Composition",
+      descAr:"الانتقال من خصائص الأجزاء إلى الكلّ بغير مسوّغ.",
+      descId:"Dari bagian ke keseluruhan secara tidak sah.",
+      exAr:"كلُّ لاعبٍ ممتاز ⇒ الفريقُ ممتاز.", exId:"Setiap pemain hebat ⇒ tim pasti hebat."},
+    {no:94, cat:"Kekeliruan",
+      titleAr:"مغالطة التقسيم", titleId:"Division",
+      descAr:"الانتقال من خصائص الكلّ إلى الأجزاء بغير مسوّغ.",
+      descId:"Dari keseluruhan ke bagian secara tidak sah.",
+      exAr:"الفريقُ قوي ⇒ كلُّ لاعبٍ قوي.", exId:"Tim kuat ⇒ tiap pemain pasti kuat."},
+    {no:95, cat:"Kekeliruan",
+      titleAr:"المصادرة على المطلوب", titleId:"Petitio Principii (Minta Dalil)",
+      descAr:"المقدّمة تفترضُ صدقَ النتيجة.",
+      descId:"Premis mengandaikan kebenaran kesimpulan.",
+      exAr:"«الكتاب وحيٌ لأنه كلامُ الله؛ ونعلم أنه كلامُ الله لأن الكتاب وحي».", exId:"Kitab suci benar karena firman Tuhan; kita tahu firman Tuhan karena kitab suci benar."},
+    {no:96, cat:"Kekeliruan",
+      titleAr:"قسمةٌ زائفة", titleId:"False Dilemma",
+      descAr:"حصرُ الخيارات في اثنين مع وجود بدائل.",
+      descId:"Pilihan dipersempit padahal opsi lebih dari dua.",
+      exAr:"«إمّا تؤيّد هذه السياسة أو أنت ضدّ الوطن».", exId:"“Setuju kebijakan ini atau kamu anti-negara.”"},
+    {no:97, cat:"Kekeliruan",
+      titleAr:"قَدحٌ في الشخص (Ad Hominem)", titleId:"Ad Hominem",
+      descAr:"مهاجمةُ الشخص بدلَ الحُجّة.",
+      descId:"Menyerang pribadi, bukan argumen.",
+      exAr:"«حجّتك باطلة لأنك غيرُ متعلّم».", exId:"“Argumenmu salah karena kamu tidak sekolah.”"},
+    {no:98, cat:"Kekeliruan",
+      titleAr:"الاحتجاج بسلطةٍ غيرِ مختصّة", titleId:"Appeal to Authority (Otoritas Tak Relevan)",
+      descAr:"الاستنادُ إلى مرجعيةٍ غير مؤهّلة.",
+      descId:"Bersandar pada otoritas yang tidak kompeten.",
+      exAr:"«المشهورُ فلان قال إن اللقاح خطر».", exId:"“Selebgram X bilang vaksin berbahaya.”"},
+    {no:99, cat:"Kekeliruan",
+      titleAr:"«بعد ذلك إذن بسببه» (Post Hoc)", titleId:"Post Hoc Ergo Propter Hoc",
+      descAr:"جعلُ التعاقب الزمني سببًا.",
+      descId:"Mengira urutan waktu sebagai sebab-akibat.",
+      exAr:"شُفي بعد شُرب العشب ⇒ العشب سببُ الشفاء.", exId:"Sembuh setelah minum jamu ⇒ jamu penyebab kesembuhan."},
+    {no:100, cat:"Kekeliruan",
+      titleAr:"رجلُ القَشّ", titleId:"Straw Man",
+      descAr:"تحريفُ موقف الخصم ثمّ ردّه.",
+      descId:"Mendistorsikan posisi lawan lalu menyerangnya.",
+      exAr:"طالبَ «أ» بإصلاح الضريبة ⇒ يُتَّهَم بأنّه يريد مصادرة أموال الناس.", exId:"A ingin reformasi pajak ⇒ dituduh ingin merampas harta warga."}
+  ];
+
+  // Build filter chips
+  const chipsEl = document.getElementById('chips');
+  const selected = new Set();
+  categories.forEach(c => {
+    const el = document.createElement('button');
+    el.className = 'chip';
+    el.textContent = c;
+    el.dataset.cat = c;
+    el.addEventListener('click', () => {
+      if(selected.has(c)) { selected.delete(c); el.classList.remove('active'); }
+      else { selected.add(c); el.classList.add('active'); }
+      render();
+    });
+    chipsEl.appendChild(el);
+  });
+
+  const grid = document.getElementById('grid');
+  const countEl = document.getElementById('count');
+  const search = document.getElementById('search');
+  const toast = document.getElementById('toast');
+
+  function escapeHTML(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])) }
+
+  function cardTemplate(r){
+    return `
+      <article class="card will-reveal" data-cat="${r.cat}" data-no="${r.no}">
+        <button class="copy-btn" type="button" aria-label="Salin kaidah" data-no="${r.no}">📋 Salin</button>
+        <div class="top">
+          <div class="num" aria-hidden="true">${r.no}</div>
+          <div class="cat">${escapeHTML(r.cat)}</div>
+        </div>
+        <h3 class="ar" lang="ar" dir="rtl">${escapeHTML(r.titleAr)}</h3>
+        <div class="title-id">${escapeHTML(r.titleId)}</div>
+
+        <p class="desc-ar ar" lang="ar" dir="rtl">${escapeHTML(r.descAr)}</p>
+        <p class="desc-id">${escapeHTML(r.descId)}</p>
+
+        <details class="example">
+          <summary>💡 مثال | Contoh</summary>
+          <div class="example-body">
+            <div class="ex-ar ar" lang="ar" dir="rtl">${escapeHTML(r.exAr)}</div>
+            <div class="ex-id">${escapeHTML(r.exId)}</div>
+          </div>
+        </details>
+
+        <div class="tags">
+          <span class="tag">${escapeHTML(r.cat)}</span>
+        </div>
+      </article>
+    `;
+  }
+
+  function matchesFilter(r, q, chosen){
+    const hay = (r.titleAr + ' ' + r.titleId + ' ' + r.descAr + ' ' + r.descId + ' ' + r.exAr + ' ' + r.exId + ' ' + r.cat).toLowerCase();
+    const hitSearch = hay.includes(q.toLowerCase().trim());
+    const hitCat = chosen.size ? chosen.has(r.cat) : true;
+    return hitSearch && hitCat;
+  }
+
+  function render(){
+    const q = search.value || '';
+    const filtered = rules.filter(r => matchesFilter(r, q, selected));
+    grid.innerHTML = filtered.map(cardTemplate).join('');
+    countEl.textContent = String(filtered.length);
+    revealInit();
+  }
+
+  search.addEventListener('input', render);
+
+  document.getElementById('clearFilters').addEventListener('click', () => {
+    search.value = '';
+    selected.clear();
+    document.querySelectorAll('.chip.active').forEach(el => el.classList.remove('active'));
+    render();
+  });
+
+  // Copy handler (delegasi)
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if(!btn) return;
+    const no = btn.dataset.no;
+    const r = rules.find(x => String(x.no) === String(no));
+    if(!r) return;
+    const text = `#${r.no} — ${r.titleAr} / ${r.titleId} [${r.cat}]
+AR: ${r.descAr}
+ID: ${r.descId}
+مثال | Contoh
+AR: ${r.exAr}
+ID: ${r.exId}`;
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast('✅ Tersalin');
+      btn.textContent = '✅ Tersalin';
+      setTimeout(() => btn.textContent = '📋 Salin', 1500);
+    }catch(err){
+      showToast('⚠️ Gagal menyalin');
+    }
+  });
+
+  // Toast
+  let toastTimer;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+  }
+
+  // IntersectionObserver untuk animasi reveal
+  let observer;
+  function revealInit(){
+    const items = document.querySelectorAll('.will-reveal');
+    if(observer){ items.forEach(it => observer.observe(it)); return; }
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add('revealed');
+          observer.unobserve(e.target);
+        }
+      })
+    }, { threshold: .12, rootMargin: '0px 0px -50px 0px'});
+    items.forEach(it => observer.observe(it));
+  }
+
+  // Tombol kembali ke atas
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    toTop.classList.toggle('visible', y > 600);
+  });
+
+  // Render awal
+  render();
+
+  // Animate footer
+  const footer = document.querySelector('footer');
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        footer.classList.add('visible');
+        footerObserver.unobserve(footer);
+      }
+    })
+  }, { threshold: .1 });
+  footerObserver.observe(footer);
+</script>
+
+</body>
+</html>
